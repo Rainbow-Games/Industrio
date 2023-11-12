@@ -1,8 +1,15 @@
-import Iron, { slices } from "@rbxts/iron";
+import Iron, { TechTree, ViewManager } from "@rbxts/iron";
+import { ToolTip } from "@rbxts/iron/out/lib/systems/selection";
 
-Iron.Initialize({});
+Iron.Initialize();
 
-for (;;) {
-	task.wait(1);
-	print(slices.PlayerGuis.getState());
-}
+ViewManager.getInstance().load();
+print(TechTree.getInstance().getAll(TechTree.getInstance().Types.View));
+
+import "./Views";
+print(TechTree.getInstance().getAll(TechTree.getInstance().Types.View));
+
+import { CreateTooltip } from "./ToolTip";
+new ToolTip([Enum.KeyCode.F], CreateTooltip);
+
+import "./input-test";

@@ -1,57 +1,13 @@
-import Iron, { TechTree, slices } from "@rbxts/iron";
-import {
-	ClonedWorldObjectComponentInterface,
-	WorldObjectBase,
-	WorldObjectComponentBase,
-} from "@rbxts/iron/out/lib/tech-tree/world-object/types";
-import { TechTreeTypes } from "@rbxts/iron/out/lib/tech-tree/t";
-import { ServerStorage } from "@rbxts/services";
+import Iron, { Link, ViewManager, WorldObjectManager } from "@rbxts/iron";
 
-class MooingComponent implements WorldObjectComponentBase {
-	name: string = "MooingComponent";
-	display: string = "Moo Moo";
-	discription: string = "Cows go moo so do I!";
-	icon: string = "";
-	tick = (dt: number, object: ClonedWorldObjectComponentInterface) => {
-		let count = object.vars.get("Count") as number;
-		print(`dt:${dt} | Moo #${count}!`);
-		count += 1;
-		object.vars.set("Count", count);
-	};
-	initialize = (object: ClonedWorldObjectComponentInterface) => {
-		object.vars.set("Count", 0);
-	};
-	destroy = () => {};
-}
+Iron.Initialize();
 
-class CowObject implements WorldObjectBase {
-	components: string[] = ["MooingComponent"];
-	name: string = "Cow";
-	display: string = "Cow";
-	discription: string = "I eat grass!";
-	icon: string = "";
-	model: Model = ServerStorage.FindFirstChild("Cow") as Model;
-	tick = () => {};
-	initialize = () => {
-		print("I'm alive!");
-	};
-	destroy = () => {
-		print("I died :C");
-	};
-}
+ViewManager.getInstance();
 
-TechTree.add(TechTreeTypes.WorldObjectComponent, new MooingComponent());
-TechTree.add(TechTreeTypes.WorldObject, new CowObject());
+import "./Views";
+import "./components";
+import "./world-objects";
 
-Iron.Initialize({ FPS: 20 });
-let c = 0;
-for (;;) {
-	const id = Iron.WorldObjectManager.create("Cow");
-	Iron.WorldObjectManager.relocate(id, new Vector3(5, 1, 0), 0);
-	Iron.WorldObjectManager.initialize(id);
-	task.wait(10);
-	Iron.WorldObjectManager.destroy(id);
-	task.wait(0.2);
-	if (c % 155 === 0) slices.PlayerGuis.addButton(c, { link: `WorldObjectView/${id}/satus`, icon: "N/A" });
-	c += 1;
-}
+const cow = WorldObjectManager.getInstance().create("Cow");
+WorldObjectManager.getInstance().relocate(cow, new Vector3(0, 0, 10), 1);
+WorldObjectManager.getInstance().initialize(cow);

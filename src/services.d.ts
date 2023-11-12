@@ -1,3 +1,3 @@
-interface ServerStorage extends Instance {
-	Cow: Model;
+declare interface ServerStorage extends Instance {
+	assets: Folder;
 }
