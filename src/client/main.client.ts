@@ -1,15 +1,17 @@
-import Iron, { TechTree, ViewManager } from "@rbxts/iron";
-import { ToolTip } from "@rbxts/iron/out/lib/systems/selection";
+import Iron, { WorldObjectModelAsset } from "@rbxts/iron";
+import { InputAction } from "@rbxts/iron/out/lib/System/Client";
 
-Iron.Initialize();
+Iron.Client.PlacementManager.set("FramesObject");
 
-ViewManager.getInstance().load();
-print(TechTree.getInstance().getAll(TechTree.getInstance().Types.View));
+const worldObjects = ["FramesObject", "FramesRedObject", "FramesBlueObject", "FramesGreenObject"];
+const switchObject = new InputAction([Enum.KeyCode.E]);
 
-import "./Views";
-print(TechTree.getInstance().getAll(TechTree.getInstance().Types.View));
+let c = 0;
 
-import { CreateTooltip } from "./ToolTip";
-new ToolTip([Enum.KeyCode.F], CreateTooltip);
-
-import "./input-test";
+switchObject.Event.Connect(() => {
+	c += 1;
+	if (c >= worldObjects.size()) {
+		c = 0;
+	}
+	Iron.Client.PlacementManager.set(worldObjects[c]);
+});

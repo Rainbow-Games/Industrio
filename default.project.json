@@ -1,5 +1,5 @@
 {
-	"name": "roblox-ts-game",
+	"name": "industrio-testing",
 	"globIgnorePaths": [
 		"**/package.json",
 		"**/tsconfig.json"
